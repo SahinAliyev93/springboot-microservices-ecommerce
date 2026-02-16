@@ -6,18 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-
 import java.time.OffsetDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderResponse {
+public class PaymentResponse {
     private Long id;
-    private String productCode;
-    private Integer quantity;
-    private BigDecimal price;
+    private String orderId;
+    private BigDecimal amount;
     private String status;
     private OffsetDateTime createdAt;
 }

@@ -2,14 +2,8 @@ package com.example.dto;
 
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 @Data
-public class OrderRequest {
-
+public class InventoryRequest {
     private String productCode;
-
     private Integer quantity;
-
-    private BigDecimal price;
 }

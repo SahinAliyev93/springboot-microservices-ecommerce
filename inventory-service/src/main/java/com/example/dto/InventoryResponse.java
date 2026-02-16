@@ -1,11 +1,10 @@
 package com.example.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 import java.time.OffsetDateTime;
 
@@ -13,11 +12,15 @@ import java.time.OffsetDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderResponse {
+public class InventoryResponse {
+
     private Long id;
+
     private String productCode;
-    private Integer quantity;
-    private BigDecimal price;
-    private String status;
-    private OffsetDateTime createdAt;
+
+    private Integer availableQuantity;
+
+    private OffsetDateTime createdDate;
+
+    private OffsetDateTime lastModifiedDate;
 }
