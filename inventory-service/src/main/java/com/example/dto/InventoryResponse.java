@@ -20,7 +20,7 @@ public class InventoryResponse {
 
     private Integer availableQuantity;
 
-    private OffsetDateTime createdDate;
+    private OffsetDateTime createdAt;
 
     private OffsetDateTime lastModifiedDate;
 }

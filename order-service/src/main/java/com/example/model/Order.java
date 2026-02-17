@@ -10,10 +10,9 @@ import java.sql.Timestamp;
 
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 

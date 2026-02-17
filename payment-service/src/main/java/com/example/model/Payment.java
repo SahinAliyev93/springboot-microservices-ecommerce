@@ -6,13 +6,12 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+
 
 @Entity
-@Table(name = "payment")
+@Table(name = "payments")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Payment {
