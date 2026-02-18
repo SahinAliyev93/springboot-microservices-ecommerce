@@ -5,6 +5,8 @@ import com.example.dto.InventoryResponse;
 import com.example.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +17,13 @@ public class InventoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     public InventoryResponse addInventory(@RequestBody InventoryRequest request) {
         return inventoryService.addInventory(request);
+    }
+
+    @PostMapping("/debug-auth")
+    public String debugAuthorities(Authentication authentication) {
+        return authentication.getAuthorities().toString();
     }
 }
