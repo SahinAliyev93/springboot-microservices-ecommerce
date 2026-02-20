@@ -1,5 +1,6 @@
 package com.example.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InventoryRequest {
+
+    @NotNull
     private String productCode;
+
+    @NotNull
     private Integer availableQuantity;
 }

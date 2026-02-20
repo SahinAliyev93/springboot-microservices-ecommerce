@@ -26,3 +26,6 @@ include::{snippets}/inventory-create/response-body.adoc[]
 
 Response Fields:
 include::{snippets}/inventory-create/response-fields.adoc[]
+
+Resquest Fields:
+include::{snippets}/inventory-create/request-fields.adoc[]
