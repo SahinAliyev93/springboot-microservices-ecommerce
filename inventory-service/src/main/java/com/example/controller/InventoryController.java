@@ -27,4 +27,9 @@ public class InventoryController {
     public String debugAuthorities(Authentication authentication) {
         return authentication.getAuthorities().toString();
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "Test";
+    }
 }

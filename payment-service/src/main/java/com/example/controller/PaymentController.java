@@ -20,4 +20,9 @@ public class PaymentController {
     public PaymentResponse createPayment(@RequestBody PaymentRequest request) {
         return paymentService.createPayment(request);
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "Test";
+    }
 }

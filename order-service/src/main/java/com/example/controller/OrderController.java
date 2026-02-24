@@ -20,4 +20,9 @@ public class OrderController {
     public OrderResponse create(@RequestBody OrderRequest request) {
         return orderService.createOrder(request);
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "Test";
+    }
 }

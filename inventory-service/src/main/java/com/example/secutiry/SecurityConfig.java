@@ -30,7 +30,7 @@ public class SecurityConfig {
 
             Collection<String> roles = (Collection<String>) realmAccess.get("roles");
             return roles.stream()
-                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role)) // ROLE_ADMIN edir
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                     .collect(Collectors.toList());
         });
 
@@ -43,7 +43,7 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/public/**").permitAll()
+                        .requestMatchers("/public/**").permitAll()
                         .requestMatchers("/actuator/health", "/actuator/info").permitAll()
                         .anyRequest().authenticated()
                 )
