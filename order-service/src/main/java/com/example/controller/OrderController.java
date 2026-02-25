@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.dto.OrderRequest;
 import com.example.dto.OrderResponse;
 import com.example.service.OrderService;
+import com.example.service.inventory.InventoryServiceFeign;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final InventoryServiceFeign inventoryServiceFeign;
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -24,5 +26,10 @@ public class OrderController {
     @GetMapping("/test")
     public String test() {
         return "Test";
+    }
+
+    @GetMapping("/testInventory")
+    public String testInventory() {
+        return inventoryServiceFeign.getTest();
     }
 }
