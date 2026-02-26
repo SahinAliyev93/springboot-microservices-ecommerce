@@ -23,9 +23,10 @@ public class OrderController {
         return orderService.createOrder(request);
     }
 
+
     @GetMapping("/test")
     public String test() {
-        return "Test";
+       throw new RuntimeException("Error");
     }
 
     @GetMapping("/testInventory")
