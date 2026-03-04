@@ -1,0 +1,31 @@
+= Inventory Ecommerce Service Docs
+Shahin Aliyev;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+
+
+`InventoryControllerTest` makes a call to a very simple service and produces three
+documentation snippets.
+
+One showing how to make a request using cURL:
+
+include::{snippets}/inventory-create/curl-request.adoc[]
+
+One showing the HTTP request:
+
+include::{snippets}/inventory-create/http-request.adoc[]
+
+And one showing the HTTP response:
+
+include::{snippets}/inventory-create/http-response.adoc[]
+
+Response Body:
+include::{snippets}/inventory-create/response-body.adoc[]
+
+
+Response Fields:
+include::{snippets}/inventory-create/response-fields.adoc[]
+
+Resquest Fields:
+include::{snippets}/inventory-create/request-fields.adoc[]
