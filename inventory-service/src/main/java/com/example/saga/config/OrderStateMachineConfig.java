@@ -3,15 +3,18 @@ package com.example.saga.config;
 
 import com.example.saga.event.OrderEvent;
 import com.example.saga.state.OrderState;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
 import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
+import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
+import org.springframework.statemachine.listener.StateMachineListenerAdapter;
 
 @Configuration
 @EnableStateMachineFactory
+@Slf4j
 public class OrderStateMachineConfig extends StateMachineConfigurerAdapter<OrderState, OrderEvent> {
 
     @Override
@@ -42,4 +45,5 @@ public class OrderStateMachineConfig extends StateMachineConfigurerAdapter<Order
                 .target(OrderState.ORDER_FAILED)
                 .event(OrderEvent.PAYMENT_FAILED);
     }
+
 }
