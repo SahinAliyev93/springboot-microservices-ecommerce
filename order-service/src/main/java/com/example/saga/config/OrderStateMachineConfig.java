@@ -1,21 +1,29 @@
 package com.example.saga.config;
 
 
+import com.example.saga.action.PaymentAction;
 import com.example.saga.event.OrderEvent;
+import com.example.saga.guard.PaymentSuccessGuard;
 import com.example.saga.state.OrderState;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
 import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
-import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
-import org.springframework.statemachine.listener.StateMachineListenerAdapter;
 
 @Configuration
 @EnableStateMachineFactory
 @Slf4j
 public class OrderStateMachineConfig extends StateMachineConfigurerAdapter<OrderState, OrderEvent> {
+
+    private final PaymentAction paymentAction;
+    private final PaymentSuccessGuard paymentSuccessGuard;
+
+    public OrderStateMachineConfig(PaymentAction paymentAction,PaymentSuccessGuard paymentSuccessGuard) {
+        this.paymentAction = paymentAction;
+        this.paymentSuccessGuard = paymentSuccessGuard;
+    }
 
     @Override
     public void configure(StateMachineStateConfigurer<OrderState, OrderEvent> states) throws Exception {
@@ -34,11 +42,13 @@ public class OrderStateMachineConfig extends StateMachineConfigurerAdapter<Order
                 .source(OrderState.ORDER_CREATED)
                 .target(OrderState.PAYMENT_PROCESSING)
                 .event(OrderEvent.START_PAYMENT)
+                .action(paymentAction)
                 .and()
                 .withExternal()
                 .source(OrderState.PAYMENT_PROCESSING)
                 .target(OrderState.INVENTORY_RESERVING)
                 .event(OrderEvent.PAYMENT_SUCCESS)
+                .guard(paymentSuccessGuard)
                 .and()
                 .withExternal()
                 .source(OrderState.PAYMENT_PROCESSING)

@@ -116,7 +116,6 @@
             <artifactId>spring-statemachine-starter</artifactId>
             <version>4.0.1</version>
         </dependency>
-
     </dependencies>
 
     <build>
