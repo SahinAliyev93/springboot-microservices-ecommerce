@@ -22,27 +22,19 @@ public class OrderSageService {
     private final OrderRepository orderRepository;
 
 
-    public void handleEvent(Long orderId, OrderEvent event) {
-     Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
+    public StateMachine<OrderState,OrderEvent> buildMachine(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order not found"));
 
         StateMachine<OrderState,OrderEvent> sm = stateMachineFactory.getStateMachine(orderId.toString());
 
-        resetStateMachine(sm, OrderState.fromValue(order.getStatus()));
-
-        sm.getExtendedState()
-                .getVariables()
-                .put("order", order);
-
-        sm.start();
-
-        sm.sendEvent(event);
-    }
-
-    private  void resetStateMachine(StateMachine<OrderState, OrderEvent> sm, OrderState state) {
         sm.stop();
-       sm.getStateMachineAccessor().doWithAllRegions(access ->{
-           access.resetStateMachineReactively(new DefaultStateMachineContext<>(state, null, null, null)).block();
-       });
+        sm.getStateMachineAccessor().doWithAllRegions(access ->{
+            access.resetStateMachineReactively(new DefaultStateMachineContext<>(OrderState.fromValue(order.getStatus()),
+                    null, null, null)).block();
+        });
         sm.start();
+       return sm;
+
     }
+
 }

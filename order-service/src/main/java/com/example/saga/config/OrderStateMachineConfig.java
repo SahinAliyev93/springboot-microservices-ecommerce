@@ -1,10 +1,13 @@
 package com.example.saga.config;
 
 
+import com.example.saga.action.InventoryAction;
 import com.example.saga.action.PaymentAction;
+import com.example.saga.action.RefundAction;
 import com.example.saga.event.OrderEvent;
 import com.example.saga.guard.PaymentSuccessGuard;
 import com.example.saga.state.OrderState;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
@@ -15,15 +18,15 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 @Configuration
 @EnableStateMachineFactory
 @Slf4j
+@AllArgsConstructor
 public class OrderStateMachineConfig extends StateMachineConfigurerAdapter<OrderState, OrderEvent> {
 
     private final PaymentAction paymentAction;
     private final PaymentSuccessGuard paymentSuccessGuard;
+    private final InventoryAction inventoryAction;
+    private final RefundAction refundAction;
 
-    public OrderStateMachineConfig(PaymentAction paymentAction,PaymentSuccessGuard paymentSuccessGuard) {
-        this.paymentAction = paymentAction;
-        this.paymentSuccessGuard = paymentSuccessGuard;
-    }
+
 
     @Override
     public void configure(StateMachineStateConfigurer<OrderState, OrderEvent> states) throws Exception {
@@ -44,16 +47,32 @@ public class OrderStateMachineConfig extends StateMachineConfigurerAdapter<Order
                 .event(OrderEvent.START_PAYMENT)
                 .action(paymentAction)
                 .and()
+
                 .withExternal()
                 .source(OrderState.PAYMENT_PROCESSING)
                 .target(OrderState.INVENTORY_RESERVING)
                 .event(OrderEvent.PAYMENT_SUCCESS)
                 .guard(paymentSuccessGuard)
+                .action(inventoryAction)
+
                 .and()
                 .withExternal()
                 .source(OrderState.PAYMENT_PROCESSING)
                 .target(OrderState.ORDER_FAILED)
-                .event(OrderEvent.PAYMENT_FAILED);
+                .event(OrderEvent.PAYMENT_FAILED)
+
+                .and()
+                .withExternal()
+                .source(OrderState.INVENTORY_RESERVING)
+                .target(OrderState.ORDER_COMPLETED)
+                .event(OrderEvent.INVENTORY_SUCCESS)
+
+                .and()
+                .withExternal()
+                .source(OrderState.INVENTORY_RESERVING)
+                .target(OrderState.ORDER_FAILED)
+                .event(OrderEvent.INVENTORY_FAILED)
+                .action(refundAction);
     }
 
 }

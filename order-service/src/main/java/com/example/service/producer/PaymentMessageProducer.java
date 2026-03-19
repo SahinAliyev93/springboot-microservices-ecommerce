@@ -12,6 +12,7 @@ public class PaymentMessageProducer {
 
     private final KafkaTemplate<String, PaymentRequest> kafkaTemplate;
 
+
     public void sendPaymentRequest(PaymentRequest request) {
         kafkaTemplate.send("payment-topic", request.getOrderId().toString(), request);
     }
